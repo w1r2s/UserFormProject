@@ -88,32 +88,33 @@ namespace UserFormProject
 
             DB dB = new DB();
 
-            MySqlCommand command = new MySqlCommand("INSERT INTO user_priv_form VALUES (@Login, @Select, @Insert, @Update," +
+            MySqlCommand command = new MySqlCommand("INSERT INTO user_priv_form VALUES (NULL, @Login, @AddText, @Select, @Insert, @Update," +
                 "@Delete, @Create, @Drop, @Grant, @References, @Index, @Alter, @Create_tmp_table, @Lock_tables, @Create_view," +
-                "@Show_view, @Create_routine, @Alter_routine, @Execute, @Event, @Trigger, @AddText)", dB.GetConnection());
+                "@Show_view, @Create_routine, @Alter_routine, @Execute, @Event, @Trigger)", dB.GetConnection());
 
-
-            command.Parameters.Add("@Login", MySqlDbType.VarChar).Value = login;
-            command.Parameters.Add("@Select", MySqlDbType.Enum).Value = Select;
-            command.Parameters.Add("@Insert", MySqlDbType.Enum).Value = Insert;
-            command.Parameters.Add("@Update", MySqlDbType.Enum).Value = Update;
-            command.Parameters.Add("@Delete", MySqlDbType.Enum).Value = Delete;
-            command.Parameters.Add("@Create", MySqlDbType.Enum).Value = Create;
-            command.Parameters.Add("@Drop", MySqlDbType.Enum).Value = Drop;
-            command.Parameters.Add("@Grant", MySqlDbType.Enum).Value = Grant;
-            command.Parameters.Add("@References", MySqlDbType.Enum).Value = References;
-            command.Parameters.Add("@Index", MySqlDbType.Enum).Value = Index;
-            command.Parameters.Add("@Alter", MySqlDbType.Enum).Value = Alter;
-            command.Parameters.Add("@Create_tmp_table", MySqlDbType.Enum).Value = Create_tmp_table;
-            command.Parameters.Add("@Lock_tables", MySqlDbType.Enum).Value = Lock_tables;
-            command.Parameters.Add("@Create_view", MySqlDbType.Enum).Value = Create_view;
-            command.Parameters.Add("@Show_view", MySqlDbType.Enum).Value = Show_view;
-            command.Parameters.Add("@Create_routine", MySqlDbType.Enum).Value = Create_routine;
-            command.Parameters.Add("@Alter_routine", MySqlDbType.Enum).Value = Alter_routine;
-            command.Parameters.Add("@Execute", MySqlDbType.Enum).Value = Execute;
-            command.Parameters.Add("@Event", MySqlDbType.Enum).Value = Event;
-            command.Parameters.Add("@Trigger", MySqlDbType.Enum).Value = Trigger;
+            
+            command.Parameters.Add("@Login", MySqlDbType.VarChar).Value = login; 
             command.Parameters.Add("@AddText", MySqlDbType.VarChar).Value = AdditionalText.Text;
+            command.Parameters.Add("@Select", MySqlDbType.Enum).Value = Select; 
+            command.Parameters.Add("@Insert", MySqlDbType.Enum).Value = Insert; 
+            command.Parameters.Add("@Update", MySqlDbType.Enum).Value = Update; 
+            command.Parameters.Add("@Delete", MySqlDbType.Enum).Value = Delete; 
+            command.Parameters.Add("@Create", MySqlDbType.Enum).Value = Create; 
+            command.Parameters.Add("@Drop", MySqlDbType.Enum).Value = Drop;
+            command.Parameters.Add("@Grant", MySqlDbType.Enum).Value = Grant; 
+            command.Parameters.Add("@References", MySqlDbType.Enum).Value = References; 
+            command.Parameters.Add("@Index", MySqlDbType.Enum).Value = Index; 
+            command.Parameters.Add("@Alter", MySqlDbType.Enum).Value = Alter; 
+            command.Parameters.Add("@Create_tmp_table", MySqlDbType.Enum).Value = Create_tmp_table; 
+            command.Parameters.Add("@Lock_tables", MySqlDbType.Enum).Value = Lock_tables; 
+            command.Parameters.Add("@Create_view", MySqlDbType.Enum).Value = Create_view; 
+            command.Parameters.Add("@Show_view", MySqlDbType.Enum).Value = Show_view; 
+            command.Parameters.Add("@Create_routine", MySqlDbType.Enum).Value = Create_routine; 
+            command.Parameters.Add("@Alter_routine", MySqlDbType.Enum).Value = Alter_routine; 
+            command.Parameters.Add("@Execute", MySqlDbType.Enum).Value = Execute; 
+            command.Parameters.Add("@Event", MySqlDbType.Enum).Value = Event; 
+            command.Parameters.Add("@Trigger", MySqlDbType.Enum).Value = Trigger; 
+            command.Parameters.Add("@AddText", MySqlDbType.VarChar).Value = AdditionalText.Text; 
 
             dB.Open_connection();
 
