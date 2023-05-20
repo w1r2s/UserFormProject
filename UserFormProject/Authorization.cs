@@ -30,7 +30,7 @@ namespace UserFormProject
         private void buttonEnter_Click(object sender, EventArgs e)
         {
             string login_user = LoginField.Text;
-            string pass_user = PassField.Text;
+            string pass_user = md5.HashPassword(PassField.Text);
 
             DB db = new DB();
 
@@ -38,9 +38,9 @@ namespace UserFormProject
 
             MySqlDataAdapter adapter = new MySqlDataAdapter();
 
-            MySqlCommand command = new MySqlCommand("SELECT * FROM users WHERE user_name = @uL AND user_pass = @uP", db.GetConnection());
-            command.Parameters.Add("@uL", MySqlDbType.VarChar).Value = login_user;
-            command.Parameters.Add("@uP", MySqlDbType.VarChar).Value = pass_user;
+            MySqlCommand command = new MySqlCommand("SELECT * FROM users WHERE user_name = @Login AND user_pass = @Pass", db.GetConnection());
+            command.Parameters.Add("@Login", MySqlDbType.VarChar).Value = login_user;
+            command.Parameters.Add("@Pass", MySqlDbType.VarChar).Value = pass_user;
 
             adapter.SelectCommand = command;
             adapter.Fill(table);

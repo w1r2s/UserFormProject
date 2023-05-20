@@ -67,8 +67,10 @@ namespace UserFormProject
             }
 
             DB dB = new DB();
-
-            MySqlCommand command = new MySqlCommand("INSERT INTO `users` (`user_name`, `user_pass`, `Firstname`, `Lastname`) VALUES (@Login, @Pass, @FName, @LName)", dB.GetConnection());
+              
+            MySqlCommand command = new MySqlCommand($"CREATE USER {LoginField.Text}@localhost IDENTIFIED BY @Pass", dB.GetConnection());
+            command.Parameters.Add("@Pass", MySqlDbType.VarChar).Value = PassField.Text;
+            command.Parameters.Add("@localhost", MySqlDbType.VarChar).Value = "@localhost";
 
             command.Parameters.Add("@Login", MySqlDbType.VarChar).Value = LoginField.Text;
             command.Parameters.Add("@Pass", MySqlDbType.VarChar).Value = PassField.Text;
@@ -83,7 +85,9 @@ namespace UserFormProject
 
             dB.Open_connection();
 
-            if (command.ExecuteNonQuery() == 1)
+            command.ExecuteNonQuery();
+        
+            if (command1.ExecuteNonQuery() == 1)
             {
                 MessageBox.Show("Регистрация прошла успешно");
 
@@ -111,8 +115,8 @@ namespace UserFormProject
 
             MySqlDataAdapter adapter = new MySqlDataAdapter();
 
-            MySqlCommand command = new MySqlCommand("SELECT * FROM users WHERE user_name = @uL", db.GetConnection());
-            command.Parameters.Add("@uL", MySqlDbType.VarChar).Value = LoginField.Text;
+            MySqlCommand command = new MySqlCommand("SELECT * FROM users WHERE user_name = @Login", db.GetConnection());
+            command.Parameters.Add("@Login", MySqlDbType.VarChar).Value = LoginField.Text;
 
             adapter.SelectCommand = command;
             adapter.Fill(table);
