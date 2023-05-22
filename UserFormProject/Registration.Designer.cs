@@ -91,6 +91,7 @@
             this.ButtonDone.Text = "Зарегестрироваться";
             this.ButtonDone.UseVisualStyleBackColor = true;
             this.ButtonDone.Click += new System.EventHandler(this.ButtonReg_Click);
+
             // 
             // ButtonExit
             // 

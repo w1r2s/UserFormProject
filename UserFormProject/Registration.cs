@@ -74,6 +74,12 @@ namespace UserFormProject
             command.Parameters.Add("@Pass", MySqlDbType.VarChar).Value = PassField.Text;
             command.Parameters.Add("@FName", MySqlDbType.VarChar).Value = FirstnameField.Text;
             command.Parameters.Add("@LName", MySqlDbType.VarChar).Value = LastnameField.Text;
+          
+
+            MySqlCommand command1 = new MySqlCommand($"CREATE USER {LoginField.Text}@localhost IDENTIFIED BY @Pass", dB.GetConnection());
+            command1.Parameters.Add("@Pass", MySqlDbType.VarChar).Value = PassField.Text;
+            command1.Parameters.Add("@localhost", MySqlDbType.VarChar).Value = "@'localhost'";
+           
 
             dB.Open_connection();
 
@@ -86,6 +92,8 @@ namespace UserFormProject
             {
                 MessageBox.Show("Ошибка регистрации");
             }
+
+            command1.ExecuteReader();
 
             dB.Close_connection();
 
