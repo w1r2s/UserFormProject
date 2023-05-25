@@ -47,6 +47,14 @@ namespace UserFormProject
 
             if (table.Rows.Count > 0)
             {
+                if (login_user == "admin")
+                {
+                    this.Hide();
+                   AdminForm adminform = new AdminForm(login_user);
+                    adminform.Show();
+
+                }
+
                 this.Hide();
                 UserForm userForm = new UserForm(login_user);
                 userForm.Show();

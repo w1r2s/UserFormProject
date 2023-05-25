@@ -1,4 +1,5 @@
-﻿using MySql.Data.MySqlClient;
+﻿using Microsoft.VisualBasic.Logging;
+using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -19,6 +20,8 @@ namespace UserFormProject
 
             this.PassField.AutoSize = false;
             this.PassField.Size = new Size(this.PassField.Size.Width, 32);
+
+            LoginRequirement.Hide();
         }
 
        
@@ -61,6 +64,11 @@ namespace UserFormProject
                 return;
             }
 
+            if (IsCorrectLogin() == false)
+            {
+              return;
+            }
+
             if (IsRegistredUser() == true)
             {
                 return;
@@ -72,15 +80,11 @@ namespace UserFormProject
             command.Parameters.Add("@Pass", MySqlDbType.VarChar).Value = PassField.Text;
             command.Parameters.Add("@localhost", MySqlDbType.VarChar).Value = "@localhost";
 
-            command.Parameters.Add("@Login", MySqlDbType.VarChar).Value = LoginField.Text;
-            command.Parameters.Add("@Pass", MySqlDbType.VarChar).Value = PassField.Text;
-            command.Parameters.Add("@FName", MySqlDbType.VarChar).Value = FirstnameField.Text;
-            command.Parameters.Add("@LName", MySqlDbType.VarChar).Value = LastnameField.Text;
-          
-
-            MySqlCommand command1 = new MySqlCommand($"CREATE USER {LoginField.Text}@localhost IDENTIFIED BY @Pass", dB.GetConnection());
-            command1.Parameters.Add("@Pass", MySqlDbType.VarChar).Value = PassField.Text;
-            command1.Parameters.Add("@localhost", MySqlDbType.VarChar).Value = "@'localhost'";
+            MySqlCommand command1 = new MySqlCommand($"INSERT INTO users( user_name, user_pass, Firstname, Lastname)  Values(@Login,@Pass,@FName,@LName)", dB.GetConnection());
+            command1.Parameters.Add("@Login", MySqlDbType.VarChar).Value = LoginField.Text;
+            command1.Parameters.Add("@Pass", MySqlDbType.VarChar).Value = md5.HashPassword(PassField.Text);
+            command1.Parameters.Add("@FName", MySqlDbType.VarChar).Value = FirstnameField.Text;
+            command1.Parameters.Add("@LName", MySqlDbType.VarChar).Value = LastnameField.Text;
            
 
             dB.Open_connection();
@@ -96,8 +100,6 @@ namespace UserFormProject
             {
                 MessageBox.Show("Ошибка регистрации");
             }
-
-            command1.ExecuteReader();
 
             dB.Close_connection();
 
@@ -138,6 +140,51 @@ namespace UserFormProject
         private void Registration_FormClosed(object sender, FormClosedEventArgs e)
         {
             Application.Exit();
+        }
+
+        private void LoginField_Enter(object sender, EventArgs e)
+        {
+          LoginRequirement.Show();
+        }
+
+        private void LoginField_Leave(object sender, EventArgs e)
+        {
+          LoginRequirement.Hide();
+        }
+      
+        public Boolean IsCorrectLogin()
+        {
+      bool isDigit = false;
+      bool isLetter = false;
+      bool isLength = false;
+            if (LoginField.Text.Length >= 2 && LoginField.Text.Length <= 10)
+            {
+              isLength = true;
+            }
+
+            foreach (var x in LoginField.Text)
+            {
+              if (char.IsLetter(x))
+              {
+                isLetter = true;
+               
+              }
+              if (char.IsDigit(x))
+              {
+                isDigit = true;
+               
+              }
+
+            }
+            if (isLength && isLetter && isDigit)
+            {
+              return true;
+            }
+            else 
+            { 
+              MessageBox.Show("Неверный логин."); 
+            }
+           return false;
         }
     }
 }
