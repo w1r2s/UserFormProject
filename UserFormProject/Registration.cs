@@ -21,7 +21,7 @@ namespace UserFormProject
             this.PassField.AutoSize = false;
             this.PassField.Size = new Size(this.PassField.Size.Width, 32);
 
-            LoginRequirement.Hide();
+            LoginRequirement.Hide(); // поле с требованиями к паролю
         }
 
        
@@ -152,31 +152,25 @@ namespace UserFormProject
           LoginRequirement.Hide();
         }
       
-        public Boolean IsCorrectLogin()
+        public Boolean IsCorrectLogin() // проверка на правильность введенного логина
         {
-      bool isDigit = false;
-      bool isLetter = false;
-      bool isLength = false;
-            if (LoginField.Text.Length >= 2 && LoginField.Text.Length <= 10)
+           bool isLetter = false;
+           bool isLength = false;
+
+            if (LoginField.Text.Length >= 2 && LoginField.Text.Length <= 10) // от 2 до 10 символов включительно
             {
               isLength = true;
             }
 
             foreach (var x in LoginField.Text)
             {
-              if (char.IsLetter(x))
+              if (char.IsLetter(x)) // должен содержать хотя бы 1 букву
               {
                 isLetter = true;
                
               }
-              if (char.IsDigit(x))
-              {
-                isDigit = true;
-               
-              }
-
             }
-            if (isLength && isLetter && isDigit)
+            if (isLength && isLetter)
             {
               return true;
             }

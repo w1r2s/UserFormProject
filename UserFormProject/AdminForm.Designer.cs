@@ -28,18 +28,17 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             this.label2 = new System.Windows.Forms.Label();
             this.ExitButton = new System.Windows.Forms.Button();
             this.User_name_textbox = new System.Windows.Forms.TextBox();
             this.User_name_lable = new System.Windows.Forms.Label();
-            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.contextMenuStrip2 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.SearchButton = new System.Windows.Forms.Button();
             this.RevokeButton = new System.Windows.Forms.Button();
             this.DeclineButton = new System.Windows.Forms.Button();
             this.ApplyButton = new System.Windows.Forms.Button();
             this.GridView = new System.Windows.Forms.DataGridView();
+            this.ValidCheck = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.BackButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.GridView)).BeginInit();
             this.SuspendLayout();
             // 
@@ -54,7 +53,7 @@
             // 
             // ExitButton
             // 
-            this.ExitButton.Location = new System.Drawing.Point(603, 395);
+            this.ExitButton.Location = new System.Drawing.Point(637, 395);
             this.ExitButton.Name = "ExitButton";
             this.ExitButton.Size = new System.Drawing.Size(125, 43);
             this.ExitButton.TabIndex = 26;
@@ -78,20 +77,9 @@
             this.User_name_lable.TabIndex = 28;
             this.User_name_lable.Text = "Пользователь :";
             // 
-            // contextMenuStrip1
-            // 
-            this.contextMenuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
-            this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(61, 4);
-            // 
-            // contextMenuStrip2
-            // 
-            this.contextMenuStrip2.ImageScalingSize = new System.Drawing.Size(20, 20);
-            this.contextMenuStrip2.Name = "contextMenuStrip2";
-            this.contextMenuStrip2.Size = new System.Drawing.Size(61, 4);
-            // 
             // SearchButton
             // 
+            this.SearchButton.Cursor = System.Windows.Forms.Cursors.Hand;
             this.SearchButton.Location = new System.Drawing.Point(439, 53);
             this.SearchButton.Name = "SearchButton";
             this.SearchButton.Size = new System.Drawing.Size(94, 29);
@@ -102,30 +90,36 @@
             // 
             // RevokeButton
             // 
-            this.RevokeButton.Location = new System.Drawing.Point(603, 264);
+            this.RevokeButton.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.RevokeButton.Location = new System.Drawing.Point(637, 218);
             this.RevokeButton.Name = "RevokeButton";
             this.RevokeButton.Size = new System.Drawing.Size(125, 45);
             this.RevokeButton.TabIndex = 33;
             this.RevokeButton.Text = "Отозвать";
             this.RevokeButton.UseVisualStyleBackColor = true;
+            this.RevokeButton.Click += new System.EventHandler(this.RevokeButton_Click);
             // 
             // DeclineButton
             // 
-            this.DeclineButton.Location = new System.Drawing.Point(603, 200);
+            this.DeclineButton.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.DeclineButton.Location = new System.Drawing.Point(637, 154);
             this.DeclineButton.Name = "DeclineButton";
             this.DeclineButton.Size = new System.Drawing.Size(125, 45);
             this.DeclineButton.TabIndex = 34;
             this.DeclineButton.Text = "Отклонить";
             this.DeclineButton.UseVisualStyleBackColor = true;
+            this.DeclineButton.Click += new System.EventHandler(this.DeclineButton_Click);
             // 
             // ApplyButton
             // 
-            this.ApplyButton.Location = new System.Drawing.Point(603, 134);
+            this.ApplyButton.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.ApplyButton.Location = new System.Drawing.Point(637, 88);
             this.ApplyButton.Name = "ApplyButton";
             this.ApplyButton.Size = new System.Drawing.Size(125, 45);
             this.ApplyButton.TabIndex = 35;
             this.ApplyButton.Text = "Одобрить";
             this.ApplyButton.UseVisualStyleBackColor = true;
+            this.ApplyButton.Click += new System.EventHandler(this.ApplyButton_Click);
             // 
             // GridView
             // 
@@ -137,19 +131,42 @@
             this.GridView.BackgroundColor = System.Drawing.SystemColors.Control;
             this.GridView.ClipboardCopyMode = System.Windows.Forms.DataGridViewClipboardCopyMode.EnableWithoutHeaderText;
             this.GridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.GridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.ValidCheck});
             this.GridView.Location = new System.Drawing.Point(24, 88);
             this.GridView.Name = "GridView";
-            this.GridView.ReadOnly = true;
-            this.GridView.RowHeadersWidth = 51;
+            this.GridView.RowHeadersWidth = 50;
+            this.GridView.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             this.GridView.RowTemplate.Height = 29;
-            this.GridView.Size = new System.Drawing.Size(509, 350);
+            this.GridView.Size = new System.Drawing.Size(607, 350);
             this.GridView.TabIndex = 36;
+            // 
+            // ValidCheck
+            // 
+            this.ValidCheck.FillWeight = 10F;
+            this.ValidCheck.Frozen = true;
+            this.ValidCheck.HeaderText = "";
+            this.ValidCheck.MinimumWidth = 6;
+            this.ValidCheck.Name = "ValidCheck";
+            this.ValidCheck.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.ValidCheck.Width = 30;
+            // 
+            // BackButton
+            // 
+            this.BackButton.Location = new System.Drawing.Point(637, 346);
+            this.BackButton.Name = "BackButton";
+            this.BackButton.Size = new System.Drawing.Size(125, 43);
+            this.BackButton.TabIndex = 37;
+            this.BackButton.Text = "Назад";
+            this.BackButton.UseVisualStyleBackColor = true;
+            this.BackButton.Click += new System.EventHandler(this.BackButton_Click);
             // 
             // AdminForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(782, 453);
+            this.Controls.Add(this.BackButton);
             this.Controls.Add(this.GridView);
             this.Controls.Add(this.ApplyButton);
             this.Controls.Add(this.DeclineButton);
@@ -159,7 +176,9 @@
             this.Controls.Add(this.User_name_lable);
             this.Controls.Add(this.ExitButton);
             this.Controls.Add(this.label2);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Name = "AdminForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "AdminForm";
             this.Load += new System.EventHandler(this.AdminForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.GridView)).EndInit();
@@ -174,12 +193,12 @@
         private Button ExitButton;
         private TextBox User_name_textbox;
         private Label User_name_lable;
-        private ContextMenuStrip contextMenuStrip1;
-        private ContextMenuStrip contextMenuStrip2;
         private Button SearchButton;
         private Button RevokeButton;
         private Button DeclineButton;
         private Button ApplyButton;
         private DataGridView GridView;
+        private DataGridViewCheckBoxColumn ValidCheck;
+        private Button BackButton;
     }
 }

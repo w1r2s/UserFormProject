@@ -1,6 +1,4 @@
-﻿using Microsoft.VisualBasic.ApplicationServices;
-using Microsoft.VisualBasic.Logging;
-using MySql.Data.MySqlClient;
+﻿using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -88,7 +86,10 @@ namespace UserFormProject
 
             DB dB = new DB();
 
-            MySqlCommand command = new MySqlCommand("INSERT INTO user_priv_form VALUES (NULL, @Login, @AddText, @Select, @Insert, @Update," +
+            MySqlCommand command = new MySqlCommand("INSERT INTO user_priv_form (user_name,Additional_info,Select_priv,Insert_priv,Update_priv,Delete_priv," +
+                "Create_priv,Drop_priv,Grant_priv,References_priv,Index_priv,Alter_priv,Create_tmp_table_priv,Lock_tables_priv,Create_view_priv," +
+                "Show_view_priv,Create_routine_priv,Alter_routine_priv,Execute_priv,Event_priv,Trigger_priv) " +
+                "VALUES (@Login, @AddText, @Select, @Insert, @Update," +
                 "@Delete, @Create, @Drop, @Grant, @References, @Index, @Alter, @Create_tmp_table, @Lock_tables, @Create_view," +
                 "@Show_view, @Create_routine, @Alter_routine, @Execute, @Event, @Trigger)", dB.GetConnection());
 
@@ -115,220 +116,216 @@ namespace UserFormProject
             command.Parameters.Add("@Event", MySqlDbType.Enum).Value = Event; 
             command.Parameters.Add("@Trigger", MySqlDbType.Enum).Value = Trigger;
 
-            MessageBox.Show("Заявка отппрравлена");
+            //if (Select == 'Y')
+            //{
+            //    MySqlCommand command1 = new MySqlCommand($"GRANT SELECT ON kursach.* TO {login}@localhost",dB.GetConnection());
+            //    command1.Parameters.Add("@localhost", MySqlDbType.VarChar).Value = "@'localhost'";
+            //    dB.Open_connection();
 
-            if (Select == 'Y')
-            {
-                MySqlCommand command1 = new MySqlCommand($"GRANT SELECT ON kursach.* TO {login}@localhost",dB.GetConnection());
-                command1.Parameters.Add("@localhost", MySqlDbType.VarChar).Value = "@'localhost'";
-                dB.Open_connection();
+            //    command1.ExecuteReader();
 
-                command1.ExecuteReader();
+            //    dB.Close_connection();
+            //}
 
-                dB.Close_connection();
-            }
+            //if (Insert == 'Y')
+            //{
+            //    MySqlCommand command2 = new MySqlCommand($"GRANT INSERT ON kursach.* TO {login}@localhost", dB.GetConnection());
+            //    command2.Parameters.Add("@localhost", MySqlDbType.VarChar).Value = "@'localhost'";
+            //    dB.Open_connection();
 
-            if (Insert == 'Y')
-            {
-                MySqlCommand command2 = new MySqlCommand($"GRANT INSERT ON kursach.* TO {login}@localhost", dB.GetConnection());
-                command2.Parameters.Add("@localhost", MySqlDbType.VarChar).Value = "@'localhost'";
-                dB.Open_connection();
+            //    command2.ExecuteReader();
 
-                command2.ExecuteReader();
+            //    dB.Close_connection();
+            //}
 
-                dB.Close_connection();
-            }
+            //if (Update == 'Y')
+            //{
+            //    MySqlCommand command3 = new MySqlCommand($"GRANT UPDATE ON kursach.* TO {login}@localhost", dB.GetConnection());
+            //    command3.Parameters.Add("@localhost", MySqlDbType.VarChar).Value = "@'localhost'";
+            //    dB.Open_connection();
 
-            if (Update == 'Y')
-            {
-                MySqlCommand command3 = new MySqlCommand($"GRANT UPDATE ON kursach.* TO {login}@localhost", dB.GetConnection());
-                command3.Parameters.Add("@localhost", MySqlDbType.VarChar).Value = "@'localhost'";
-                dB.Open_connection();
+            //    command3.ExecuteReader();
 
-                command3.ExecuteReader();
+            //    dB.Close_connection();
+            //}
 
-                dB.Close_connection();
-            }
+            //if (Delete == 'Y')
+            //{
+            //    MySqlCommand command4 = new MySqlCommand($"GRANT DELETE ON kursach.* TO {login}@localhost", dB.GetConnection());
+            //    command4.Parameters.Add("@localhost", MySqlDbType.VarChar).Value = "@'localhost'";
+            //    dB.Open_connection();
 
-            if (Delete == 'Y')
-            {
-                MySqlCommand command4 = new MySqlCommand($"GRANT DELETE ON kursach.* TO {login}@localhost", dB.GetConnection());
-                command4.Parameters.Add("@localhost", MySqlDbType.VarChar).Value = "@'localhost'";
-                dB.Open_connection();
+            //    command4.ExecuteReader();
 
-                command4.ExecuteReader();
+            //    dB.Close_connection();
+            //}
 
-                dB.Close_connection();
-            }
+            //if (Create == 'Y')
+            //{
+            //    MySqlCommand command5 = new MySqlCommand($"GRANT CREATE ON kursach.* TO {login}@localhost", dB.GetConnection());
+            //    command5.Parameters.Add("@localhost", MySqlDbType.VarChar).Value = "@'localhost'";
+            //    dB.Open_connection();
 
-            if (Create == 'Y')
-            {
-                MySqlCommand command5 = new MySqlCommand($"GRANT CREATE ON kursach.* TO {login}@localhost", dB.GetConnection());
-                command5.Parameters.Add("@localhost", MySqlDbType.VarChar).Value = "@'localhost'";
-                dB.Open_connection();
+            //    command5.ExecuteReader();
 
-                command5.ExecuteReader();
+            //    dB.Close_connection();
+            //}
 
-                dB.Close_connection();
-            }
+            //if (Drop == 'Y')
+            //{
+            //    MySqlCommand command6 = new MySqlCommand($"GRANT DROP ON kursach.* TO {login}@localhost", dB.GetConnection());
+            //    command6.Parameters.Add("@localhost", MySqlDbType.VarChar).Value = "@'localhost'";
+            //    dB.Open_connection();
 
-            if (Drop == 'Y')
-            {
-                MySqlCommand command6 = new MySqlCommand($"GRANT DROP ON kursach.* TO {login}@localhost", dB.GetConnection());
-                command6.Parameters.Add("@localhost", MySqlDbType.VarChar).Value = "@'localhost'";
-                dB.Open_connection();
+            //    command6.ExecuteReader();
 
-                command6.ExecuteReader();
+            //    dB.Close_connection();
+            //}
 
-                dB.Close_connection();
-            }
+            //if (Grant == 'Y')
+            //{
+            //    MySqlCommand command7 = new MySqlCommand($"GRANT GRANT OPTION ON kursach.* TO {login}@localhost", dB.GetConnection());
+            //    command7.Parameters.Add("@localhost", MySqlDbType.VarChar).Value = "@'localhost'";
+            //    dB.Open_connection();
 
-            if (Grant == 'Y')
-            {
-                MySqlCommand command7 = new MySqlCommand($"GRANT GRANT OPTION ON kursach.* TO {login}@localhost", dB.GetConnection());
-                command7.Parameters.Add("@localhost", MySqlDbType.VarChar).Value = "@'localhost'";
-                dB.Open_connection();
+            //    command7.ExecuteReader();
 
-                command7.ExecuteReader();
+            //    dB.Close_connection();
+            //}
 
-                dB.Close_connection();
-            }
+            //if (References == 'Y')
+            //{
+            //    MySqlCommand command8 = new MySqlCommand($"GRANT REFERENCES ON kursach.* TO {login}@localhost", dB.GetConnection());
+            //    command8.Parameters.Add("@localhost", MySqlDbType.VarChar).Value = "@'localhost'";
+            //    dB.Open_connection();
 
-            if (References == 'Y')
-            {
-                MySqlCommand command8 = new MySqlCommand($"GRANT REFERENCES ON kursach.* TO {login}@localhost", dB.GetConnection());
-                command8.Parameters.Add("@localhost", MySqlDbType.VarChar).Value = "@'localhost'";
-                dB.Open_connection();
+            //    command8.ExecuteReader();
 
-                command8.ExecuteReader();
+            //    dB.Close_connection();
+            //}
 
-                dB.Close_connection();
-            }
+            //if (Index == 'Y')
+            //{
+            //    MySqlCommand command9 = new MySqlCommand($"GRANT INDEX ON kursach.* TO {login}@localhost", dB.GetConnection());
+            //    command9.Parameters.Add("@localhost", MySqlDbType.VarChar).Value = "@'localhost'";
+            //    dB.Open_connection();
 
-            if (Index == 'Y')
-            {
-                MySqlCommand command9 = new MySqlCommand($"GRANT INDEX ON kursach.* TO {login}@localhost", dB.GetConnection());
-                command9.Parameters.Add("@localhost", MySqlDbType.VarChar).Value = "@'localhost'";
-                dB.Open_connection();
+            //    command9.ExecuteReader();
 
-                command9.ExecuteReader();
+            //    dB.Close_connection();
+            //}
 
-                dB.Close_connection();
-            }
+            //if (Alter == 'Y')
+            //{
+            //    MySqlCommand command10 = new MySqlCommand($"GRANT ALTER ON kursach.* TO {login}@localhost", dB.GetConnection());
+            //    command10.Parameters.Add("@localhost", MySqlDbType.VarChar).Value = "@'localhost'";
+            //    dB.Open_connection();
 
-            if (Alter == 'Y')
-            {
-                MySqlCommand command10 = new MySqlCommand($"GRANT ALTER ON kursach.* TO {login}@localhost", dB.GetConnection());
-                command10.Parameters.Add("@localhost", MySqlDbType.VarChar).Value = "@'localhost'";
-                dB.Open_connection();
+            //    command10.ExecuteReader();
 
-                command10.ExecuteReader();
+            //    dB.Close_connection();
+            //}
 
-                dB.Close_connection();
-            }
+            //if (Create_tmp_table == 'Y')
+            //{
+            //    MySqlCommand command11 = new MySqlCommand($"GRANT CREATE TEMPORARY TABLES ON kursach.* TO {login}@localhost", dB.GetConnection());
+            //    command11.Parameters.Add("@localhost", MySqlDbType.VarChar).Value = "@'localhost'";
+            //    dB.Open_connection();
 
-            if (Create_tmp_table == 'Y')
-            {
-                MySqlCommand command11 = new MySqlCommand($"GRANT CREATE TEMPORARY TABLES ON kursach.* TO {login}@localhost", dB.GetConnection());
-                command11.Parameters.Add("@localhost", MySqlDbType.VarChar).Value = "@'localhost'";
-                dB.Open_connection();
+            //    command11.ExecuteReader();
 
-                command11.ExecuteReader();
+            //    dB.Close_connection();
+            //}
 
-                dB.Close_connection();
-            }
+            //if (Lock_tables == 'Y')
+            //{
+            //    MySqlCommand command12 = new MySqlCommand($"GRANT LOCK TABLES ON kursach.* TO {login}@localhost", dB.GetConnection());
+            //    command12.Parameters.Add("@localhost", MySqlDbType.VarChar).Value = "@'localhost'";
+            //    dB.Open_connection();
 
-            if (Lock_tables == 'Y')
-            {
-                MySqlCommand command12 = new MySqlCommand($"GRANT LOCK TABLES ON kursach.* TO {login}@localhost", dB.GetConnection());
-                command12.Parameters.Add("@localhost", MySqlDbType.VarChar).Value = "@'localhost'";
-                dB.Open_connection();
+            //    command12.ExecuteReader();
 
-                command12.ExecuteReader();
+            //    dB.Close_connection();
+            //}
 
-                dB.Close_connection();
-            }
+            //if (Create_view == 'Y')
+            //{
+            //    MySqlCommand command13 = new MySqlCommand($"GRANT CREATE VIEW ON kursach.* TO {login}@localhost", dB.GetConnection());
+            //    command13.Parameters.Add("@localhost", MySqlDbType.VarChar).Value = "@'localhost'";
+            //    dB.Open_connection();
 
-            if (Create_view == 'Y')
-            {
-                MySqlCommand command13 = new MySqlCommand($"GRANT CREATE VIEW ON kursach.* TO {login}@localhost", dB.GetConnection());
-                command13.Parameters.Add("@localhost", MySqlDbType.VarChar).Value = "@'localhost'";
-                dB.Open_connection();
+            //    command13.ExecuteReader();
 
-                command13.ExecuteReader();
+            //    dB.Close_connection();
+            //}
 
-                dB.Close_connection();
-            }
+            //if (Show_view == 'Y')
+            //{
+            //    MySqlCommand command14 = new MySqlCommand($"GRANT SHOW VIEW ON kursach.* TO {login}@localhost", dB.GetConnection());
+            //    command14.Parameters.Add("@localhost", MySqlDbType.VarChar).Value = "@'localhost'";
+            //    dB.Open_connection();
 
-            if (Show_view == 'Y')
-            {
-                MySqlCommand command14 = new MySqlCommand($"GRANT SHOW VIEW ON kursach.* TO {login}@localhost", dB.GetConnection());
-                command14.Parameters.Add("@localhost", MySqlDbType.VarChar).Value = "@'localhost'";
-                dB.Open_connection();
+            //    command14.ExecuteReader();
 
-                command14.ExecuteReader();
+            //    dB.Close_connection();
+            //}
 
-                dB.Close_connection();
-            }
+            //if (Create_routine == 'Y')
+            //{
+            //    MySqlCommand command15 = new MySqlCommand($"GRANT CREATE ROUTINE ON kursach.* TO {login}@localhost", dB.GetConnection());
+            //    command15.Parameters.Add("@localhost", MySqlDbType.VarChar).Value = "@'localhost'";
+            //    dB.Open_connection();
 
-            if (Create_routine == 'Y')
-            {
-                MySqlCommand command15 = new MySqlCommand($"GRANT CREATE ROUTINE ON kursach.* TO {login}@localhost", dB.GetConnection());
-                command15.Parameters.Add("@localhost", MySqlDbType.VarChar).Value = "@'localhost'";
-                dB.Open_connection();
+            //    command15.ExecuteReader();
 
-                command15.ExecuteReader();
+            //    dB.Close_connection();
+            //}
 
-                dB.Close_connection();
-            }
+            //if (Alter_routine == 'Y')
+            //{
+            //    MySqlCommand command16 = new MySqlCommand($"GRANT ALTER ROUTINE ON kursach.* TO {login}@localhost", dB.GetConnection());
+            //    command16.Parameters.Add("@localhost", MySqlDbType.VarChar).Value = "@'localhost'";
+            //    dB.Open_connection();
 
-            if (Alter_routine == 'Y')
-            {
-                MySqlCommand command16 = new MySqlCommand($"GRANT ALTER ROUTINE ON kursach.* TO {login}@localhost", dB.GetConnection());
-                command16.Parameters.Add("@localhost", MySqlDbType.VarChar).Value = "@'localhost'";
-                dB.Open_connection();
+            //    command16.ExecuteReader();
 
-                command16.ExecuteReader();
+            //    dB.Close_connection();
+            //}
 
-                dB.Close_connection();
-            }
+            //if (Execute == 'Y')
+            //{
+            //    MySqlCommand command17 = new MySqlCommand($"GRANT EXECUTE ON kursach.* TO {login}@localhost", dB.GetConnection());
+            //    command17.Parameters.Add("@localhost", MySqlDbType.VarChar).Value = "@'localhost'";
+            //    dB.Open_connection();
 
-            if (Execute == 'Y')
-            {
-                MySqlCommand command17 = new MySqlCommand($"GRANT EXECUTE ON kursach.* TO {login}@localhost", dB.GetConnection());
-                command17.Parameters.Add("@localhost", MySqlDbType.VarChar).Value = "@'localhost'";
-                dB.Open_connection();
+            //    command17.ExecuteReader();
 
-                command17.ExecuteReader();
+            //    dB.Close_connection();
+            //}
 
-                dB.Close_connection();
-            }
+            //if (Event == 'Y')
+            //{
+            //    MySqlCommand command18 = new MySqlCommand($"GRANT EVENT ON kursach.* TO {login}@localhost", dB.GetConnection());
+            //    command18.Parameters.Add("@localhost", MySqlDbType.VarChar).Value = "@'localhost'";
+            //    dB.Open_connection();
 
-            if (Event == 'Y')
-            {
-                MySqlCommand command18 = new MySqlCommand($"GRANT EVENT ON kursach.* TO {login}@localhost", dB.GetConnection());
-                command18.Parameters.Add("@localhost", MySqlDbType.VarChar).Value = "@'localhost'";
-                dB.Open_connection();
+            //    command18.ExecuteReader();
 
-                command18.ExecuteReader();
+            //    dB.Close_connection();
+            //}
 
-                dB.Close_connection();
-            }
+            //if (Trigger == 'Y')
+            //{
+            //    MySqlCommand command19 = new MySqlCommand($"GRANT TRIGGER ON kursach.* TO {login}@localhost", dB.GetConnection());
+            //    command19.Parameters.Add("@localhost", MySqlDbType.VarChar).Value = "@'localhost'";
+            //    dB.Open_connection();
 
-            if (Trigger == 'Y')
-            {
-                MySqlCommand command19 = new MySqlCommand($"GRANT TRIGGER ON kursach.* TO {login}@localhost", dB.GetConnection());
-                command19.Parameters.Add("@localhost", MySqlDbType.VarChar).Value = "@'localhost'";
-                dB.Open_connection();
+            //    command19.ExecuteReader();
 
-                command19.ExecuteReader();
-
-                dB.Close_connection();
-            }
+            //    dB.Close_connection();
+            //}
         
             dB.Open_connection();
-
-
 
             if (command.ExecuteNonQuery() == 1)
             {
@@ -339,14 +336,12 @@ namespace UserFormProject
             {
                 MessageBox.Show("Ошибка отправки заявки.");
             }
-
+            dB.Close_connection();
+            
             this.Hide();
             Authorization authorization = new Authorization();
             authorization.Show();
             
-            dB.Close_connection();
         }
-
-        
     }
 }

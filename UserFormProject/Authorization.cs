@@ -50,14 +50,16 @@ namespace UserFormProject
                 if (login_user == "admin")
                 {
                     this.Hide();
-                   AdminForm adminform = new AdminForm(login_user);
+                   AdminForm adminform = new AdminForm();
                     adminform.Show();
 
                 }
-
-                this.Hide();
-                UserForm userForm = new UserForm(login_user);
-                userForm.Show();
+                else
+                {
+                    this.Hide();
+                    UserForm userForm = new UserForm(login_user);
+                    userForm.Show();
+                }
             }
             else
             {
