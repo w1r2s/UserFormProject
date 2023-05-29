@@ -140,6 +140,7 @@
             this.GridView.RowTemplate.Height = 29;
             this.GridView.Size = new System.Drawing.Size(607, 350);
             this.GridView.TabIndex = 36;
+            this.GridView.CurrentCellChanged += new System.EventHandler(this.GridView_CurrentCellChanged);
             // 
             // ValidCheck
             // 
@@ -198,7 +199,7 @@
         private Button DeclineButton;
         private Button ApplyButton;
         private DataGridView GridView;
-        private DataGridViewCheckBoxColumn ValidCheck;
         private Button BackButton;
+        private DataGridViewCheckBoxColumn ValidCheck;
     }
 }

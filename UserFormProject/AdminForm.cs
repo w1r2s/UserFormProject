@@ -21,7 +21,7 @@ namespace UserFormProject
             InitializeComponent();
             BaseFillGrid();
             GridView.Columns[0].Frozen = true; // замораживаем колонку с checkbox
-            GridView.Columns["record_id"].Frozen= true; // замораживаем колонку с номером записи
+            GridView.Columns["record_id"].Frozen = true; // замораживаем колонку с номером записи
         }
 
         private void ExitButton_Click(object sender, EventArgs e)
@@ -36,7 +36,7 @@ namespace UserFormProject
             MaximizeBox = false; // запрещает растягивать форму
         }
 
-       
+
 
         private void SearchButton_Click(object sender, EventArgs e)
         {
@@ -46,14 +46,15 @@ namespace UserFormProject
                 return;
             }
 
-            UserFillGrid();
+            UserFillAllGrid();
         }
 
         private void ApplyButton_Click(object sender, EventArgs e)
         {
-          int record_id = 0;
-          string user_name = User_name_textbox.Text;
-          List<string> YPrivList = new List<string>();
+            int record_id = 0;
+            string user_name = User_name_textbox.Text;
+            List<string> YPrivList = new List<string>();
+            DB dB = new DB();
 
             foreach (DataGridViewRow row in GridView.Rows) // перебор всех записей в гриде
             {
@@ -61,8 +62,8 @@ namespace UserFormProject
                 if (Convert.ToBoolean(row.Cells[0].Value) == true) // если галочка стоит, то
                 {
 
-                    if (row.Cells["status"].Value.ToString() == "Processing") // если совпадают значения
-                    {                        
+                    if (row.Cells["status"].Value.ToString() == "В обработке") // если совпадают значения
+                    {
                         user_name = row.Cells["user_name"].Value.ToString();
                         record_id = Convert.ToInt32(row.Cells["record_id"].Value);
 
@@ -70,37 +71,29 @@ namespace UserFormProject
                         {
                             if (Convert.ToChar(row.Cells[i].Value) == 'Y')
                             {
-                                YPrivList.Add(GridView.Columns[i].Name); 
+                                YPrivList.Add(GridView.Columns[i].Name);
                             }
                         }
-                      
                     }
 
                 }
             }
 
-          PrivelegeAction("GRANT","TO",user_name,YPrivList); // выдача привилегий
+            PrivelegeAction("GRANT", "TO", user_name, YPrivList); // выдача привилегий
 
             // изменение статуса заявки
-            DB dB = new DB();
-            MySqlCommand command = new MySqlCommand($"UPDATE user_priv_form SET status = 'Done', dateOfAnswear = @time WHERE record_id = {record_id}", dB.GetConnection());
+            
+            MySqlCommand command = new MySqlCommand($"UPDATE user_priv_form SET status = 'Выполнено', dateOfAnswear = @time WHERE record_id = {record_id}", dB.GetConnection());
             command.Parameters.Add("@time", MySqlDbType.DateTime).Value = DateTime.Now;
             dB.Open_connection();
-            
-            if(command.ExecuteNonQuery() == 1)
-            {
-                MessageBox.Show("Изменение внесено");
-            }
-            else
-            {
-                MessageBox.Show("Нет изменений");
-            }
-            
+
+            command.ExecuteNonQuery();
+
             dB.Close_connection();
 
-            UserFillGrid();
+            UserFillAllGrid();
         }
-        
+
         private void DeclineButton_Click(object sender, EventArgs e)
         {
             int record_id = 0;
@@ -112,7 +105,7 @@ namespace UserFormProject
                 if (Convert.ToBoolean(row.Cells[0].Value) == true) // если галочка стоит, то
                 {
 
-                    if (row.Cells["status"].Value.ToString() == "Processing") // если совпадают значения
+                    if (row.Cells["status"].Value.ToString() == "В обработке") // если совпадают значения
                     {
                         record_id = Convert.ToInt32(row.Cells["record_id"].Value);
 
@@ -123,7 +116,7 @@ namespace UserFormProject
 
             // изменение статуса заявки
             DB dB = new DB();
-            MySqlCommand command = new MySqlCommand($"UPDATE user_priv_form SET status = 'Declined', dateOfAnswear = @time WHERE record_id = {record_id}", dB.GetConnection());
+            MySqlCommand command = new MySqlCommand($"UPDATE user_priv_form SET status = 'Отклонено', dateOfAnswear = @time WHERE record_id = {record_id}", dB.GetConnection());
             command.Parameters.Add("@time", MySqlDbType.DateTime);
             dB.Open_connection();
 
@@ -138,7 +131,7 @@ namespace UserFormProject
 
             dB.Close_connection();
 
-            UserFillGrid();
+            UserFillAllGrid();
         }
 
         private void RevokeButton_Click(object sender, EventArgs e)
@@ -146,14 +139,15 @@ namespace UserFormProject
             int record_id = 0;
             string user_name = User_name_textbox.Text;
             List<string> YPrivList = new List<string>();
-
+            DB dB = new DB();
+            dB.Open_connection();
             foreach (DataGridViewRow row in GridView.Rows) // перебор всех записей в гриде
             {
 
                 if (Convert.ToBoolean(row.Cells[0].Value) == true) // если галочка стоит, то
                 {
 
-                    if (row.Cells["status"].Value.ToString() == "Done") // если совпадают значения
+                    if (row.Cells["status"].Value.ToString() == "Выполнено") // если совпадают значения
                     {
                         user_name = row.Cells["user_name"].Value.ToString();
                         record_id = Convert.ToInt32(row.Cells["record_id"].Value);
@@ -163,19 +157,19 @@ namespace UserFormProject
                             if (Convert.ToChar(row.Cells[i].Value) == 'Y')
                             {
                                 YPrivList.Add(GridView.Columns[i].Name);
-                            }
-                        }                       
 
+                            }
+                        }
+                      
                     }
 
                 }
             }
+            PrivelegeAction("GRANT", "TO", user_name, YPrivList); // выдача на случай отсутствия этих привилегий. Если такие есть, ничего не изменится.
+            PrivelegeAction("REVOKE", "FROM", user_name, YPrivList); // отзыв привилегий
 
-          PrivelegeAction("REVOKE","FROM", user_name, YPrivList); // отзыв привилегий
-
-            // изменение статуса заявки
-            DB dB = new DB();
-            MySqlCommand command = new MySqlCommand($"UPDATE user_priv_form SET status = 'Revoked', dateOfAnswear = @time WHERE record_id = {record_id}", dB.GetConnection());
+         //   изменение статуса заявки
+            MySqlCommand command = new MySqlCommand($"UPDATE user_priv_form SET status = 'Отозвано', dateOfAnswear = @time WHERE record_id = {record_id}", dB.GetConnection());
             command.Parameters.Add("@time", MySqlDbType.DateTime).Value = DateTime.Now;
             dB.Open_connection();
 
@@ -190,7 +184,7 @@ namespace UserFormProject
 
             dB.Close_connection();
 
-            UserFillGrid();
+            UserFillAllGrid();
         }
 
         public void BaseFillGrid() // заполнение грида всеми доступными записями из таблицы user_priv_form
@@ -220,7 +214,7 @@ namespace UserFormProject
             db.Close_connection();
 
         }
-        public void UserFillGrid()
+        public void UserFillAllGrid()
         {
 
             DB db = new DB();
@@ -241,6 +235,11 @@ namespace UserFormProject
             {
                 GridView.DataSource = table;    // заполняем грид 
                 GridView.Columns[0].Visible = true; // включаем checkbox 
+                
+                for (int i = 1; i < GridView.Columns.Count; i++)
+                {
+                    GridView.Columns[i].ReadOnly = true;
+                }
             }
             else
             {
@@ -251,7 +250,7 @@ namespace UserFormProject
 
         } // Обновление грида выбранного пользователя
 
-        public void PrivelegeAction(string PrivCommand,string PrivPointer,string user_name,List<string> Ystrings) // действия с привилегиями по заявке (Выдача или Отзыв)
+        public void PrivelegeAction(string PrivCommand, string PrivPointer, string user_name, List<string> Ystrings) // действия с привилегиями по заявке (Выдача или Отзыв)
         {
             DB dB = new DB();
             foreach (var Priv in Ystrings) // перебор листа
@@ -474,6 +473,17 @@ namespace UserFormProject
         private void BackButton_Click(object sender, EventArgs e)
         {
             BaseFillGrid();
+        }
+
+        private void GridView_CurrentCellChanged(object sender, EventArgs e)
+        {
+            
+                for (int i = 0; i < GridView.Rows.Count; i++)
+                {
+                    if (Convert.ToBoolean(GridView.Rows[i].Cells[0].Value) == true)
+                        GridView.Rows[i].Cells[0].Value = false;
+                }
+            
         }
     }
 }
