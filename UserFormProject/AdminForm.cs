@@ -15,7 +15,6 @@ namespace UserFormProject
 {
     public partial class AdminForm : Form
     {
-        // TODO: Сделать поле "Дата обработки заявки" в бд и добавить логику в кнопки. 
         public AdminForm()
         {
             InitializeComponent();
