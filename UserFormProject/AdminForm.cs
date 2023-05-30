@@ -87,7 +87,14 @@ namespace UserFormProject
             command.Parameters.Add("@time", MySqlDbType.DateTime).Value = DateTime.Now;
             dB.Open_connection();
 
-            command.ExecuteNonQuery();
+             if (command.ExecuteNonQuery() == 1)
+            {
+                MessageBox.Show("Изменение внесено");
+            }
+            else
+            {
+                MessageBox.Show("Нет изменений");
+            }
 
             dB.Close_connection();
 
